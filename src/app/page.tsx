@@ -21,7 +21,7 @@ export default function TitlePage() {
             <h1 className="text-[clamp(96px,14vw,168px)] leading-[0.9] font-extralight tracking-tighter">
               {profile.displayName}
             </h1>
-            <p className="text-foreground-soft font-jp text-[17px] leading-[1.8] font-light">
+            <p className="text-foreground-soft font-jp text-[17px] leading-[1.8] font-light [word-break:auto-phrase]">
               {profile.motto}
             </p>
           </div>
