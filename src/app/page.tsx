@@ -28,10 +28,10 @@ export default function TitlePage() {
                 href={item.href}
                 className="group border-border bg-surface hover:border-accent focus-visible:border-accent flex flex-col rounded-lg border px-5 py-3 transition-colors"
               >
-                <span className="font-bold">
+                <span className="relative font-bold">
                   <span
                     aria-hidden
-                    className="text-accent mr-2 inline-block opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                    className="text-accent absolute -left-4 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
                   >
                     ▶
                   </span>
