@@ -14,7 +14,7 @@ export default function NotFound() {
       <p className="text-muted">このページは見つかりませんでした。</p>
       <Link
         href="/"
-        className="border-accent text-accent hover:bg-accent hover:text-background rounded-lg border px-5 py-2 font-mono transition-colors"
+        className="border-foreground text-foreground hover:bg-foreground hover:text-background rounded-lg border px-5 py-2 font-mono transition-colors"
       >
         CONTINUE?
       </Link>

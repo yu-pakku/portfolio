@@ -26,14 +26,14 @@ export default function CharacterPage() {
         <h2 className="text-xl font-bold">スキル</h2>
         {skillGroups.map((group) => (
           <div key={group.label} className="flex flex-col gap-2">
-            <h3 className="text-accent font-mono text-sm">{group.label}</h3>
+            <h3 className="text-foreground font-mono text-sm">{group.label}</h3>
             <ul className="flex flex-wrap gap-2">
               {group.skills.map((skill) => (
                 <li
                   key={skill.name}
                   className={
                     skill.level === "mastered"
-                      ? "border-accent rounded-full border px-3 py-1 text-sm"
+                      ? "border-foreground rounded-full border px-3 py-1 text-sm"
                       : "border-border text-muted rounded-full border px-3 py-1 text-sm"
                   }
                 >

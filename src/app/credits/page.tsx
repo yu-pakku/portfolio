@@ -29,7 +29,7 @@ export default function CreditsPage() {
                 href={contact.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-border hover:border-accent hover:text-accent inline-block rounded-lg border px-4 py-2 transition-colors"
+                className="border-border hover:border-foreground hover:text-foreground inline-block rounded-lg border px-4 py-2 transition-colors"
               >
                 {contact.label}
               </a>

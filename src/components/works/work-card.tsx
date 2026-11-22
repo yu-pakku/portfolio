@@ -8,7 +8,7 @@ export function WorkCard({ work }: { work: Work }) {
   return (
     <Link
       href={`/collection/${work.slug}`}
-      className="group border-border bg-surface hover:border-accent focus-visible:border-accent flex flex-col overflow-hidden rounded-lg border transition-colors"
+      className="group border-border bg-surface hover:border-foreground focus-visible:border-foreground flex flex-col overflow-hidden rounded-lg border transition-colors"
     >
       <Image
         src={work.image.src}
@@ -20,7 +20,7 @@ export function WorkCard({ work }: { work: Work }) {
       />
       <div className="flex flex-col gap-1 p-4">
         <p className="text-muted text-xs">{categoryLabel[work.category]}</p>
-        <h2 className="group-hover:text-accent font-bold">{work.title}</h2>
+        <h2 className="group-hover:text-foreground font-bold">{work.title}</h2>
         <p className="text-muted text-sm">{work.tagline}</p>
       </div>
     </Link>

@@ -18,12 +18,12 @@ export function Screen({ label, title, children, showBackToMenu = true }: Screen
         {showBackToMenu && (
           <Link
             href="/"
-            className="text-muted hover:text-accent focus-visible:text-accent w-fit font-mono text-sm transition-colors"
+            className="text-muted hover:text-foreground focus-visible:text-foreground w-fit font-mono text-sm transition-colors"
           >
             ◀ メニューへ戻る
           </Link>
         )}
-        <p className="text-accent font-mono text-sm tracking-[0.3em]">{label}</p>
+        <p className="text-foreground font-mono text-sm tracking-[0.3em]">{label}</p>
         <h1 className="text-3xl font-bold">{title}</h1>
       </header>
       {children}

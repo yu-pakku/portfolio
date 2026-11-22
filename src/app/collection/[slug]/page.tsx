@@ -82,7 +82,7 @@ export default async function WorkDetailPage(props: PageProps<"/collection/[slug
             href={work.repositoryUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="border-accent text-accent hover:bg-accent hover:text-background w-fit rounded-lg border px-4 py-2 transition-colors"
+            className="border-foreground text-foreground hover:bg-foreground hover:text-background w-fit rounded-lg border px-4 py-2 transition-colors"
           >
             GitHub でリポジトリを見る
           </a>
