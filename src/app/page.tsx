@@ -31,7 +31,7 @@ export default function TitlePage() {
           </div>
 
           <p className="text-muted animate-boot font-mono text-[11px] tracking-[0.3em] [animation-delay:240ms] pointer-coarse:hidden">
-            <span className="motion-safe:animate-blink">PRESS ENTER TO START</span>
+            <span className="effects-on:animate-blink">PRESS ENTER TO START</span>
           </p>
         </main>
 

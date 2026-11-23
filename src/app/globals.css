@@ -1,6 +1,19 @@
 @import "tailwindcss";
 
 /*
+ * 演出が有効なときだけ効くバリアント。
+ * Tailwind 標準の motion-safe は OS の設定しか見ないため、サイト内の「演出オフ」
+ * （<html data-effects="off">）も条件に加える。動き続けるアニメーションはこれで付ける。
+ */
+@custom-variant effects-on {
+  @media (prefers-reduced-motion: no-preference) {
+    &:where(:root:not([data-effects="off"]) *) {
+      @slot;
+    }
+  }
+}
+
+/*
  * 配色は Phase 2 で決定した「G ミッド」案（詳細は CLAUDE.md の「デザイン」）。
  * フォント：英字 Inter / 和文 Noto Sans JP / ラベル・数値 JetBrains Mono。
  */
@@ -71,23 +84,26 @@
   }
 }
 
+/*
+ * 背景は html（キャンバス）に置く。body に置くと、ページ側で敷く
+ * 固定の背景レイヤー（-z-10）が body の背景の下に隠れてしまうため。
+ */
 html {
-  background: var(--background);
+  background: radial-gradient(
+      ellipse 70% 55% at 50% 38%,
+      var(--background-light) 0%,
+      var(--background) 55%,
+      var(--background-deep) 100%
+    )
+    fixed var(--background);
 }
 
 body {
-  background: radial-gradient(
-    ellipse 70% 55% at 50% 38%,
-    var(--background-light) 0%,
-    var(--background) 55%,
-    #d6d2ca 100%
-  );
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
 }
 
-/* OS の「視差効果を減らす」設定を尊重する */
+/* OS の「視差効果を減らす」設定と、サイト内の「演出オフ」で動きを止める */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -98,4 +114,14 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+:root[data-effects="off"] *,
+:root[data-effects="off"] *::before,
+:root[data-effects="off"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
