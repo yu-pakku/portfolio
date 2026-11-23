@@ -90,7 +90,7 @@ https://claude.ai/artifact/WGj8hqkCgmtq8i4HEUPv9S
 
 - Next.js 16（App Router）/ React 19 / TypeScript strict / Tailwind CSS 4 / Motion
 - Cache Components は無効（全ページ静的生成。未定義の slug は `dynamicParams = false` で 404）
-- フォントは現状 `geist` パッケージ（仮）。Phase 3 で Inter / Noto Sans JP / JetBrains Mono に置き換える（`next/font/google` は Vercel と GitHub Actions では取得できる）
+- フォントは Inter / Noto Sans JP / JetBrains Mono を `next/font/google` で読み込む（`src/app/layout.tsx`。Noto Sans JP は容量が大きいため `preload: false`）。ビルド時に Google Fonts から取得するため、オフライン環境ではビルドできない（Vercel と GitHub Actions では取得できる）
 - ホスティング：Vercel（https://yuma-portfolio-opal.vercel.app）。main への push で本番に反映される。
 
 ```bash
