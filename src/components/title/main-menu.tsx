@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useSound } from "@/components/options/options-provider";
 import { mainMenu } from "@/data/menu";
 
 /**
@@ -15,6 +16,7 @@ export function MainMenu() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const play = useSound();
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -33,18 +35,20 @@ export function MainMenu() {
         const from = focusedIndex === -1 ? activeIndex - step : focusedIndex;
         const next = (from + step + links.length) % links.length;
         links[next]?.focus();
+        play("move");
         return;
       }
 
       if (event.key === "Enter" && nothingFocused) {
         event.preventDefault();
+        play("decide");
         router.push(mainMenu[activeIndex].href);
       }
     }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex, router]);
+  }, [activeIndex, play, router]);
 
   return (
     <nav aria-label="メインメニュー" className="w-full max-w-[440px]">
@@ -61,6 +65,7 @@ export function MainMenu() {
                 data-active={isActive || undefined}
                 onPointerEnter={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
+                onClick={() => play("decide")}
                 className="group focus-visible:outline-foreground grid min-h-[60px] grid-cols-[48px_1fr_auto] items-center gap-x-2 outline-offset-4 focus-visible:outline-1"
               >
                 <span className="text-muted group-data-active:text-foreground font-mono text-xs transition-colors">

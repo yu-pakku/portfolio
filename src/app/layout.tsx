@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
+import { SiteHeader } from "@/components/layout/site-header";
+import { OptionsProvider } from "@/components/options/options-provider";
 import { profile, siteUrl } from "@/data/profile";
+import { effectsBootScript } from "@/lib/save-data";
 import "./globals.css";
 
 const inter = Inter({
@@ -37,9 +40,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="ja"
+      // 演出オフの data 属性を、hydration の前にインラインスクリプトで付けるため
+      suppressHydrationWarning
       className={`${inter.variable} ${notoSansJp.variable} ${jetBrainsMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: effectsBootScript }} />
+      </head>
+      <body className="flex min-h-full flex-col">
+        <OptionsProvider>
+          <SiteHeader />
+          {children}
+        </OptionsProvider>
+      </body>
     </html>
   );
 }

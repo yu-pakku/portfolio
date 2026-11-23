@@ -1,6 +1,19 @@
 @import "tailwindcss";
 
 /*
+ * 演出が有効なときだけ効くバリアント。
+ * Tailwind 標準の motion-safe は OS の設定しか見ないため、サイト内の「演出オフ」
+ * （<html data-effects="off">）も条件に加える。動き続けるアニメーションはこれで付ける。
+ */
+@custom-variant effects-on {
+  @media (prefers-reduced-motion: no-preference) {
+    &:where(:root:not([data-effects="off"]) *) {
+      @slot;
+    }
+  }
+}
+
+/*
  * 配色は Phase 2 で決定した「G ミッド」案（詳細は CLAUDE.md の「デザイン」）。
  * フォント：英字 Inter / 和文 Noto Sans JP / ラベル・数値 JetBrains Mono。
  */
@@ -12,6 +25,7 @@
   --foreground-soft: #45433f;
   --muted: #5a5853;
   --border: #d4d1ca;
+  --border-strong: #bcb7ad;
   --surface: #f3f1ec;
   --cabinet: #161618;
   --cabinet-edge: #0b0b0c;
@@ -27,6 +41,7 @@
   --color-foreground-soft: var(--foreground-soft);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-surface: var(--surface);
   --color-cabinet: var(--cabinet);
   --color-cabinet-edge: var(--cabinet-edge);
@@ -71,23 +86,26 @@
   }
 }
 
+/*
+ * 背景は html（キャンバス）に置く。body に置くと、ページ側で敷く
+ * 固定の背景レイヤー（-z-10）が body の背景の下に隠れてしまうため。
+ */
 html {
-  background: var(--background);
+  background: radial-gradient(
+      ellipse 70% 55% at 50% 38%,
+      var(--background-light) 0%,
+      var(--background) 55%,
+      var(--background-deep) 100%
+    )
+    fixed var(--background);
 }
 
 body {
-  background: radial-gradient(
-    ellipse 70% 55% at 50% 38%,
-    var(--background-light) 0%,
-    var(--background) 55%,
-    #d6d2ca 100%
-  );
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
 }
 
-/* OS の「視差効果を減らす」設定を尊重する */
+/* OS の「視差効果を減らす」設定と、サイト内の「演出オフ」で動きを止める */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -98,4 +116,72 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+:root[data-effects="off"] *,
+:root[data-effects="off"] *::before,
+:root[data-effects="off"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/*
+ * ページ遷移（React の <ViewTransition>。src/components/layout/page-transition.tsx）
+ * 古いページは短く消え、新しいページは少し下から現れる。ヘッダーは動かさない。
+ */
+::view-transition {
+  /* 遷移中もクリックを取りこぼさない */
+  pointer-events: none;
+}
+
+::view-transition-old(.page-exit) {
+  animation: 140ms ease-in both page-fade-out;
+}
+
+::view-transition-new(.page-enter) {
+  animation: 280ms cubic-bezier(0.2, 0.7, 0.2, 1) 80ms both page-rise;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-rise {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+/* 演出オフ・「視差効果を減らす」では、遷移のアニメーションをせずにすぐ切り替える */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+:root[data-effects="off"]::view-transition-group(*),
+:root[data-effects="off"]::view-transition-old(*),
+:root[data-effects="off"]::view-transition-new(*) {
+  animation: none !important;
 }

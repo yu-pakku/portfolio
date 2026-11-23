@@ -32,7 +32,7 @@ export function TitleCabinet() {
             <div className="absolute inset-x-0 top-0 h-0.5 bg-white shadow-[0_0_14px_6px_rgba(255,248,236,0.9)]" />
 
             {/* アーム */}
-            <div className="motion-safe:animate-arm-sway absolute top-2.5 left-[33%] flex flex-col items-center">
+            <div className="effects-on:animate-arm-sway absolute top-2.5 left-[33%] flex flex-col items-center">
               <div className="h-11 w-0.5 bg-[#a9a6a0]" />
               <div className="h-[15px] w-[22px] rounded-t-[4px] rounded-b-[8px] bg-[linear-gradient(90deg,#9a978f,#ffffff_40%,#86837c)]" />
             </div>
