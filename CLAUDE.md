@@ -97,7 +97,16 @@ https://claude.ai/artifact/WGj8hqkCgmtq8i4HEUPv9S
 npm run dev           # 開発サーバー
 npm run check         # lint・整形チェック・型チェック・ビルド（CI と同じ）
 npm run format        # Prettier で整形
+npm run textures      # 作品画像から景品の窓に貼る縮小版を作る（public/works/textures/）
 ```
+
+## 作品の追加手順
+
+1. 作品画像（16:9、1280px 幅以上）を `public/works/<slug>.png` に置く。
+2. `src/data/works.ts` の配列に1件追加する（詳細の各項目は本人が確認した内容だけ）。
+3. `npm run textures` を実行し、`public/works/textures/<slug>.webp` ができたことを確認する。
+   UFOキャッチャーの景品の窓にはこの縮小版（512×384・4:3 の中央切り抜き）を使う。
+4. 元画像と縮小版の両方をコミットする。
 
 ## 開発の進め方
 

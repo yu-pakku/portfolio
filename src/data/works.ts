@@ -2,7 +2,8 @@ import type { Work } from "@/types/work";
 
 /**
  * 掲載する作品の一覧。
- * 作品を追加するときは、この配列に1件追加し、画像を public/works/ に置く。
+ * 作品を追加するときは、この配列に1件追加し、画像を public/works/ に置いて
+ * `npm run textures` を実行する（手順は CLAUDE.md の「作品の追加手順」）。
  * detail の各項目は本人が内容を確認してから記入する（推測で埋めない）。
  */
 export const works = [
@@ -106,6 +107,15 @@ export type WorkSlug = (typeof works)[number]["slug"];
 
 export function findWork(slug: string): Work | undefined {
   return works.find((work) => work.slug === slug);
+}
+
+/**
+ * UFOキャッチャーの景品（箱の窓）に貼る縮小版の画像。
+ * `npm run textures` が public/works/ の画像から public/works/textures/ に書き出す。
+ */
+export function textureSrc(work: Work): string {
+  const fileName = work.image.src.split("/").pop() ?? work.slug;
+  return `/works/textures/${fileName.replace(/\.[^.]+$/, "")}.webp`;
 }
 
 export const categoryLabel = {
