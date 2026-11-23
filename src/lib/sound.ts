@@ -6,7 +6,7 @@
  * ブラウザの自動再生の制限（特に iOS Safari）にも引っかからない。
  */
 
-export type SoundName = "move" | "decide" | "cancel" | "toggle";
+export type SoundName = "move" | "decide" | "cancel" | "toggle" | "grab" | "get";
 
 type Tone = {
   frequency: number;
@@ -36,6 +36,14 @@ const recipes: Record<SoundName, Tone[]> = {
   cancel: [{ frequency: 660, endFrequency: 440, start: 0, duration: 0.09, gain: 0.1 }],
   // スイッチの切り替え
   toggle: [{ frequency: 1046, start: 0, duration: 0.05, gain: 0.1 }],
+  // GRAB：低めから少し上がる音
+  grab: [{ frequency: 392, endFrequency: 587, start: 0, duration: 0.14, gain: 0.12 }],
+  // 獲得：明るく上がる3音
+  get: [
+    { frequency: 784, start: 0, duration: 0.08, gain: 0.1 },
+    { frequency: 988, start: 0.07, duration: 0.08, gain: 0.1 },
+    { frequency: 1319, start: 0.14, duration: 0.2, gain: 0.1 },
+  ],
 };
 
 let context: AudioContext | null = null;

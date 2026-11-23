@@ -118,6 +118,11 @@ export function textureSrc(work: Work): string {
   return `/works/textures/${fileName.replace(/\.[^.]+$/, "")}.webp`;
 }
 
+/** 景品の箱に入れる小さな英字の作品名（例：student-data-bank → STUDENT DATA BANK） */
+export function prizeLabel(work: Work): string {
+  return work.slug.replaceAll("-", " ").toUpperCase();
+}
+
 export const categoryLabel = {
   personal: "個人制作",
   team: "チーム制作",
