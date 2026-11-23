@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 type ScreenProps = {
@@ -6,23 +5,16 @@ type ScreenProps = {
   label: string;
   title: string;
   children: ReactNode;
-  /** タイトル画面以外では「メニューへ戻る」を出す */
-  showBackToMenu?: boolean;
 };
 
-/** 各モード画面の共通の枠。 */
-export function Screen({ label, title, children, showBackToMenu = true }: ScreenProps) {
+/**
+ * 各モード画面の共通の枠。
+ * タイトル画面へ戻るリンクは共通ヘッダー（左の yuma）が持つ。
+ */
+export function Screen({ label, title, children }: ScreenProps) {
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-12">
+    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 pt-6 pb-12">
       <header className="flex flex-col gap-2">
-        {showBackToMenu && (
-          <Link
-            href="/"
-            className="text-muted hover:text-foreground focus-visible:text-foreground w-fit font-mono text-sm transition-colors"
-          >
-            ◀ メニューへ戻る
-          </Link>
-        )}
         <p className="text-foreground font-mono text-sm tracking-[0.3em]">{label}</p>
         <h1 className="text-3xl font-bold">{title}</h1>
       </header>

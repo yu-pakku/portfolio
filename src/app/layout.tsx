@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
+import { SiteHeader } from "@/components/layout/site-header";
 import { OptionsProvider } from "@/components/options/options-provider";
 import { profile, siteUrl } from "@/data/profile";
 import { effectsBootScript } from "@/lib/save-data";
@@ -47,7 +48,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: effectsBootScript }} />
       </head>
       <body className="flex min-h-full flex-col">
-        <OptionsProvider>{children}</OptionsProvider>
+        <OptionsProvider>
+          <SiteHeader />
+          {children}
+        </OptionsProvider>
       </body>
     </html>
   );
