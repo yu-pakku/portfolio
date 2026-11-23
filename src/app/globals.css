@@ -2,12 +2,14 @@
 
 /*
  * 配色は Phase 2 で決定した「G ミッド」案（詳細は CLAUDE.md の「デザイン」）。
- * フォントは Phase 3 で Inter / Noto Sans JP / JetBrains Mono に置き換える。
+ * フォント：英字 Inter / 和文 Noto Sans JP / ラベル・数値 JetBrains Mono。
  */
 :root {
   --background: #e5e2dc;
   --background-light: #f3f1ec;
+  --background-deep: #d6d2ca;
   --foreground: #1a1a19;
+  --foreground-soft: #45433f;
   --muted: #5a5853;
   --border: #d4d1ca;
   --surface: #f3f1ec;
@@ -20,7 +22,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-background-light: var(--background-light);
+  --color-background-deep: var(--background-deep);
   --color-foreground: var(--foreground);
+  --color-foreground-soft: var(--foreground-soft);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-surface: var(--surface);
@@ -28,8 +32,43 @@
   --color-cabinet-edge: var(--cabinet-edge);
   --color-accent: var(--accent);
   --color-accent-deep: var(--accent-deep);
-  --font-sans: var(--font-geist-sans), "Hiragino Sans", "Noto Sans JP", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Inter に和文グリフはないので、日本語は Noto Sans JP で表示される */
+  --font-sans: var(--font-inter), var(--font-noto-sans-jp), "Hiragino Sans", sans-serif;
+  --font-jp: var(--font-noto-sans-jp), "Hiragino Sans", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --animate-boot: boot 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  --animate-arm-sway: arm-sway 6s ease-in-out infinite;
+  --animate-blink: blink 2.4s ease-in-out infinite;
+
+  @keyframes boot {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  /* タイトル画面の筐体で、アームがゆっくり左右に動く */
+  @keyframes arm-sway {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(120px);
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
 }
 
 html {
@@ -54,6 +93,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;

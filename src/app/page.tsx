@@ -1,48 +1,44 @@
-import Link from "next/link";
+import { MainMenu } from "@/components/title/main-menu";
+import { TitleCabinet } from "@/components/title/title-cabinet";
 import { profile } from "@/data/profile";
 
-const menuItems = [
-  { href: "/play", label: "はじめる", description: "UFOキャッチャーで作品を獲得する" },
-  { href: "/collection", label: "コレクション", description: "全作品を図鑑で見る" },
-  { href: "/character", label: "キャラクター", description: "自己紹介・スキル" },
-  { href: "/credits", label: "クレジット", description: "スタッフロールと連絡先" },
-] as const;
-
-/** タイトル画面とメインメニュー。起動演出は Phase 3 で実装する。 */
+/**
+ * タイトル画面（G-Title）。メインメニューがサイトの目次を兼ねる。
+ * 名前・一言・メニューは最初から DOM にあり、起動演出は短いフェードだけ。
+ */
 export default function TitlePage() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-12 px-6 py-16">
-      <div className="flex flex-col items-center gap-3 text-center">
-        <p className="text-muted font-mono text-sm tracking-[0.4em]">PORTFOLIO</p>
-        <h1 className="text-6xl font-black tracking-tight uppercase">
-          {profile.displayName}
-        </h1>
-        <p className="text-muted">{profile.motto}</p>
-      </div>
+    <div className="flex flex-1 flex-col overflow-hidden bg-[radial-gradient(ellipse_45%_70%_at_72%_42%,var(--background-light)_0%,var(--background)_55%,var(--background-deep)_100%)] max-md:bg-[radial-gradient(ellipse_90%_50%_at_50%_70%,var(--background-light)_0%,var(--background)_60%,var(--background-deep)_100%)]">
+      <header className="flex items-center justify-between px-4 py-7 sm:px-12">
+        <p className="text-muted font-mono text-[11px] tracking-[0.3em]">
+          PORTFOLIO — 2026
+        </p>
+      </header>
 
-      <nav aria-label="メインメニュー" className="w-full max-w-sm">
-        <ul className="flex flex-col gap-3">
-          {menuItems.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="group border-border bg-surface hover:border-foreground focus-visible:border-foreground flex flex-col rounded-lg border px-5 py-3 transition-colors"
-              >
-                <span className="relative font-bold">
-                  <span
-                    aria-hidden
-                    className="text-foreground absolute -left-4 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                  >
-                    ▶
-                  </span>
-                  {item.label}
-                </span>
-                <span className="text-muted text-sm">{item.description}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </main>
+      <div className="flex flex-1 flex-wrap items-center gap-10 px-4 pb-10 sm:px-12">
+        <main className="flex flex-[1_1_440px] flex-col gap-11">
+          <div className="animate-boot flex flex-col gap-4.5">
+            <h1 className="text-[clamp(96px,14vw,168px)] leading-[0.9] font-extralight tracking-tighter">
+              {profile.displayName}
+            </h1>
+            <p className="text-foreground-soft font-jp text-[17px] leading-[1.8] font-light [word-break:auto-phrase]">
+              {profile.motto}
+            </p>
+          </div>
+
+          <div className="animate-boot [animation-delay:120ms]">
+            <MainMenu />
+          </div>
+
+          <p className="text-muted animate-boot font-mono text-[11px] tracking-[0.3em] [animation-delay:240ms] pointer-coarse:hidden">
+            <span className="motion-safe:animate-blink">PRESS ENTER TO START</span>
+          </p>
+        </main>
+
+        <div className="animate-boot flex flex-[1_1_400px] justify-center [animation-delay:180ms]">
+          <TitleCabinet />
+        </div>
+      </div>
+    </div>
   );
 }
