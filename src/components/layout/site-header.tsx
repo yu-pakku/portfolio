@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { OptionsMenu, SoundToggle } from "@/components/options/options-menu";
+import { useSound } from "@/components/options/options-provider";
 import { mainMenu } from "@/data/menu";
 import { profile } from "@/data/profile";
 
@@ -30,6 +31,7 @@ function getScreenLabel(pathname: string): ScreenLabel | null {
 export function SiteHeader() {
   const pathname = usePathname();
   const label = getScreenLabel(pathname);
+  const play = useSound();
 
   return (
     <header
@@ -42,6 +44,7 @@ export function SiteHeader() {
           href="/"
           aria-label={`${profile.displayName}（タイトル画面へ）`}
           aria-current={pathname === "/" ? "page" : undefined}
+          onClick={() => play("cancel")}
           className="hover:text-foreground-soft focus-visible:outline-foreground flex min-h-11 items-center text-[19px] font-light tracking-tight outline-offset-2 focus-visible:outline-1"
         >
           {profile.displayName}

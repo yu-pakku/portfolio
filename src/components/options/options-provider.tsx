@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -15,6 +16,7 @@ import {
   updateOptions,
   type Options,
 } from "@/lib/save-data";
+import { playSound, type SoundName } from "@/lib/sound";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
@@ -81,4 +83,18 @@ export function useOptions(): OptionsContextValue {
 /** 動きを止めるべきか（OS の設定 または サイト内の演出オフ）。3D の筐体などで使う */
 export function useReducedEffects(): boolean {
   return useOptions().reducedEffects;
+}
+
+/**
+ * 効果音を鳴らす関数を返す。ミュート中は何もしない。
+ * 操作（クリック・キー入力）の処理の中からだけ呼ぶこと。ページを開いただけでは鳴らさない。
+ */
+export function useSound(): (name: SoundName) => void {
+  const { sound } = useOptions().options;
+  return useCallback(
+    (name: SoundName) => {
+      if (sound) playSound(name);
+    },
+    [sound],
+  );
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import { useId, useRef } from "react";
-import { useOptions } from "@/components/options/options-provider";
+import { useOptions, useSound } from "@/components/options/options-provider";
+import { playSound } from "@/lib/sound";
 
 type OptionSwitchProps = {
   label: string;
@@ -61,7 +62,11 @@ export function SoundToggle() {
       type="button"
       aria-pressed={options.sound}
       aria-label="効果音"
-      onClick={() => setOption("sound", !options.sound)}
+      onClick={() => {
+        // オンにしたときだけ、確認の音を1回鳴らす
+        if (!options.sound) playSound("toggle");
+        setOption("sound", !options.sound);
+      }}
       className="border-border-strong text-foreground-soft hover:border-foreground focus-visible:outline-foreground grid size-11 place-items-center rounded-full border outline-offset-2 transition-colors focus-visible:outline-1"
     >
       <svg
@@ -90,13 +95,17 @@ export function SoundToggle() {
 export function OptionsMenu() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { options, setOption, systemReducedMotion } = useOptions();
+  const play = useSound();
 
   return (
     <>
       <button
         type="button"
         aria-haspopup="dialog"
-        onClick={() => dialogRef.current?.showModal()}
+        onClick={() => {
+          play("decide");
+          dialogRef.current?.showModal();
+        }}
         className="border-border-strong text-foreground-soft hover:border-foreground focus-visible:outline-foreground h-11 rounded-full border px-4 text-[13px] outline-offset-2 transition-colors focus-visible:outline-1 sm:px-4.5"
       >
         Options
@@ -105,6 +114,8 @@ export function OptionsMenu() {
       <dialog
         ref={dialogRef}
         aria-labelledby="options-title"
+        // Esc・閉じるボタン・背景のどれで閉じても鳴らす
+        onClose={() => play("cancel")}
         // 枠の外（背景）を押したら閉じる。中身は内側の div が受けるので target は dialog にならない
         onClick={(event) => {
           if (event.target === event.currentTarget) event.currentTarget.close();
@@ -126,7 +137,10 @@ export function OptionsMenu() {
               label="効果音"
               description="操作したときに小さな音を鳴らします"
               checked={options.sound}
-              onChange={(checked) => setOption("sound", checked)}
+              onChange={(checked) => {
+                if (checked) playSound("toggle");
+                setOption("sound", checked);
+              }}
             />
             <OptionSwitch
               label="演出"
@@ -137,7 +151,10 @@ export function OptionsMenu() {
               }
               checked={!systemReducedMotion && options.effects}
               disabled={systemReducedMotion}
-              onChange={(checked) => setOption("effects", checked)}
+              onChange={(checked) => {
+                play("toggle");
+                setOption("effects", checked);
+              }}
             />
           </ul>
 
