@@ -56,6 +56,15 @@
 
   --animate-arm-sway: arm-sway 6s ease-in-out infinite;
   --animate-blink: blink 2.4s ease-in-out infinite;
+  --animate-prize-out: prize-out 0.36s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  /* 獲得カードが取り出し口からせり上がる */
+  @keyframes prize-out {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
+    }
+  }
 
   @keyframes boot {
     from {
